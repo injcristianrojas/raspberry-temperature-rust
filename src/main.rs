@@ -3,25 +3,33 @@
 #[macro_use] extern crate rocket;
 #[macro_use] extern crate serde_derive;
 
+use std::collections::HashMap;
+
 use rocket_contrib::json::{Json};
+use rocket_contrib::templates::Template;
+use rocket_contrib::serve::StaticFiles;
 
 #[get("/")]
-fn index() -> &'static str {
-    "Hello, world!"
+fn index() -> Template {
+    let mut context: HashMap<&str, &str> = HashMap::new();
+    context.insert("name", "you dumb fuck!");
+    Template::render("index", &context)
 }
 
 #[derive(Serialize)]
 struct Weather {
-    inside_temp: f32,
-    outside_temp: f32
+    inside: f32,
+    outside: f32,
+    latest_formatted: &'static str
 }
 
 #[get("/api/v1/latest", format="json")]
 fn latest() -> Json<Weather> {
     Json(
         Weather{
-            inside_temp: 27.1,
-            outside_temp: 29.3
+            inside: 27.1,
+            outside: 29.3,
+            latest_formatted: "Saturday, December 19, 19:25"
         }
     )
 }
@@ -30,5 +38,7 @@ fn latest() -> Json<Weather> {
 fn main() {
     rocket::ignite()
         .mount("/", routes![index, latest])
+        .mount("/static", StaticFiles::from("static"))
+        .attach(Template::fairing())
         .launch();
 }

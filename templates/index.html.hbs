@@ -1,0 +1,43 @@
+<!doctype html>
+
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Current temperatures</title>
+  <link rel="stylesheet" href="static/css/styles.css">
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script type="text/javascript" src="static/js/process.js"></script>
+</head>
+
+<body>
+  
+  <table class="center" aria-describedby="descr">
+    <tbody>
+      <tr>
+        <th colspan="2" id="tmp">
+          <div class="title" id="descr">Current Temperatures<br />&nbsp;</div>
+        </th>
+      </tr>
+      <tr>
+        <td><div class="subtitle">Inside</div></td>
+        <td><div class="subtitle">Outside</div></td>
+      </tr>
+      <tr>
+        <td><div class="temp"><span id="temp_inside">&nbsp;</span>°C</div></td>
+        <td><div class="temp"><span id="temp_outside">&nbsp;</span>°C</div></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p class="owm">OWM Data: <span id="owm_info"></span></p>
+
+  <p class="last">Latest measurement: <span id="latest"></span></p>
+
+  <p>&nbsp;</p>
+
+  <img id="mgviz" src="/static/latest.png" alt="Temperatures for last 24 hours" />
+
+</body>
+
+</html>
