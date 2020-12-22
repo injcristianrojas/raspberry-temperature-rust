@@ -5,7 +5,7 @@
 
 use std::collections::HashMap;
 
-use rocket_contrib::json::{Json};
+use rocket_contrib::json::Json;
 use rocket_contrib::templates::Template;
 use rocket_contrib::serve::StaticFiles;
 
