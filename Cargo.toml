@@ -1,5 +1,5 @@
 [package]
-name = "raspberrypi-temperature-rust"
+name = "raspberrypi-temperature-rust-web"
 version = "0.1.0"
 authors = ["Cristian Rojas <injcristianrojas@gmail.com>"]
 edition = "2018"

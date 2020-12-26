@@ -789,7 +789,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "raspberrypi-temperature-rust"
+name = "raspberrypi-temperature-rust-web"
 version = "0.1.0"
 dependencies = [
  "rocket",
