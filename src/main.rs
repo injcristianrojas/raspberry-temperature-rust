@@ -11,8 +11,7 @@ use rocket_contrib::serve::StaticFiles;
 
 #[get("/")]
 fn index() -> Template {
-    let mut context: HashMap<&str, &str> = HashMap::new();
-    context.insert("name", "you dumb fuck!");
+    let context: HashMap<&str, &str> = HashMap::new();
     Template::render("index", &context)
 }
 
@@ -23,7 +22,7 @@ struct Weather {
     latest_formatted: &'static str
 }
 
-#[get("/api/v1/latest", format="json")]
+#[get("/api/v1/latest")]
 fn latest() -> Json<Weather> {
     Json(
         Weather{
