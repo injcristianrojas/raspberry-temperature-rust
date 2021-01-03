@@ -16,19 +16,25 @@ fn index() -> Template {
 }
 
 #[derive(Serialize)]
-struct Weather {
-    inside: f32,
-    outside: f32,
-    latest_formatted: &'static str
+pub struct Weather {
+    pub internal: f64,
+    pub external: f64,
+    pub owm_temp: f64,
+    pub owm_feels: f64,
+    pub owm_condition: String,
+    pub latest_formatted: String,
 }
 
 #[get("/api/v1/latest")]
 fn latest() -> Json<Weather> {
     Json(
         Weather{
-            inside: 27.1,
-            outside: 29.3,
-            latest_formatted: "Saturday, December 19, 19:25"
+            internal: 27.1,
+            external: 29.3,
+            owm_temp: 23.1,
+            owm_feels: 24.0,
+            owm_condition: "Clear sky".to_string(),
+            latest_formatted: "Saturday, December 19, 19:25".to_string(),
         }
     )
 }

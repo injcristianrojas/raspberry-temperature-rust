@@ -6,7 +6,7 @@ $(document).ready(function () {
 
     function loadAndSetData() {
         $.getJSON("/api/v1/latest/", function (data) {
-            setValues(data["inside"], data["outside"], data["latest_formatted"]);
+            setValues(data["internal"], data["external"], data["latest_formatted"]);
             //setOWMData(data["owm_temp"], data["owm_feels"], data["owm_condition"]);
         });
     }
