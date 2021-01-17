@@ -7,6 +7,7 @@ extern crate serde_derive;
 
 use std::collections::HashMap;
 
+use chrono::NaiveDateTime;
 use rocket::response::Responder;
 use rocket::{
     http::{ContentType, Status},
@@ -49,12 +50,21 @@ impl<'r> Responder<'r> for ApiResponse {
     }
 }
 
+fn process_date(mut weather_data: Weather) -> Weather {
+    let timedata= NaiveDateTime::parse_from_str(&weather_data.latest_formatted, "%Y-%m-%d %H:%M:%S");
+    weather_data.latest_formatted = match timedata {
+        Ok(e) => e.format("%A, %B %d, %R").to_string(),
+        Err(_) => "caca".to_string()
+    };
+    weather_data
+}
+
 #[get("/api/v1/latest")]
 fn latest() -> ApiResponse {
     let latest = get_latest_data();
     match latest {
         Ok(latest) => ApiResponse {
-            json: json!(latest),
+            json: json!(process_date(latest)),
             status: Status::Ok,
         },
         Err(_) => ApiResponse {
