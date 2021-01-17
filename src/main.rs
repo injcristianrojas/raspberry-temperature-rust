@@ -17,24 +17,13 @@ use rocket_contrib::{json, serve::StaticFiles};
 use rocket_contrib::{json::JsonValue, templates::Template};
 
 mod db;
+use db::Weather;
 use db::get_latest_data;
 
 #[get("/")]
 fn index() -> Template {
     let context: HashMap<&str, &str> = HashMap::new();
     Template::render("index", &context)
-}
-
-#[derive(Serialize, Debug)]
-pub struct Weather {
-    pub time_utc: String,
-    pub time_local: String,
-    pub internal: f64,
-    pub external: f64,
-    pub owm_temp: f64,
-    pub owm_feels: f64,
-    pub owm_condition: String,
-    pub latest_formatted: String,
 }
 
 #[derive(Debug)]

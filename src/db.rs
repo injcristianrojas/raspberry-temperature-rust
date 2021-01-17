@@ -1,7 +1,18 @@
 use dotenv::dotenv;
 use std::env;
 use rusqlite::{Connection, Error, NO_PARAMS, Result};
-use crate::Weather;
+
+#[derive(Serialize, Debug)]
+pub struct Weather {
+    pub time_utc: String,
+    pub time_local: String,
+    pub internal: f64,
+    pub external: f64,
+    pub owm_temp: f64,
+    pub owm_feels: f64,
+    pub owm_condition: String,
+    pub latest_formatted: String,
+}
 
 pub fn get_latest_data() -> Result<Weather, Error> {
     dotenv().ok();
