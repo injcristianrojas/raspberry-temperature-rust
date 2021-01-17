@@ -15,6 +15,8 @@ pub fn get_latest_data() -> Result<Weather, Error> {
     let mut temps = stmt.query_map(NO_PARAMS, |row| {
         Ok(
             Weather {
+                time_utc: row.get(0)?,
+                time_local: row.get(1)?,
                 internal: row.get(2)?,
                 external: row.get(3)?,
                 owm_temp: row.get(4)?,
