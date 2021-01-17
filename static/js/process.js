@@ -2,12 +2,12 @@ $(document).ready(function () {
 
     loadAndSetData();
     setInterval(loadAndSetData, 60000);
-    setInterval(reloadVisualization, 300000);
+    //setInterval(reloadVisualization, 300000);
 
     function loadAndSetData() {
         $.getJSON("/api/v1/latest/", function (data) {
             setValues(data["internal"], data["external"], data["latest_formatted"]);
-            //setOWMData(data["owm_temp"], data["owm_feels"], data["owm_condition"]);
+            setOWMData(data["owm_temp"], data["owm_feels"], data["owm_condition"]);
         });
     }
 
@@ -28,7 +28,7 @@ $(document).ready(function () {
 
     function reloadVisualization() {
         let d = new Date()
-        $("#mgviz").attr("src", "/static/latest.png?" + d.getTime())
+        $("#mgviz").attr("src", `/static/latest.png?${d.getTime()}`)
     }
 
 });
