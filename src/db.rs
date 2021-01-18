@@ -1,6 +1,6 @@
 use dotenv::dotenv;
 use std::env;
-use rusqlite::{Connection, Error, NO_PARAMS, Result};
+use rusqlite::{Connection, Error, NO_PARAMS, Result, params};
 
 #[derive(Serialize, Debug)]
 pub struct Weather {
@@ -12,6 +12,14 @@ pub struct Weather {
     pub owm_feels: f64,
     pub owm_condition: String,
     pub latest_formatted: String,
+}
+
+pub struct TempData {
+    pub internal: f64,
+    pub external: f64,
+    pub owm_temp: f64,
+    pub owm_feels: f64,
+    pub owm_condition: String,
 }
 
 pub fn get_latest_data() -> Result<Weather, Error> {
@@ -38,4 +46,16 @@ pub fn get_latest_data() -> Result<Weather, Error> {
         )
     })?;
     return temps.next().unwrap();
+}
+
+pub fn insert_data(data: TempData) -> Result<()> {
+    dotenv().ok();
+    let conn = Connection::open(env::var("DATABASE_URL").expect("DATABASE_URL must be set"))?;
+    conn.execute(
+        "INSERT INTO temperatures \
+        (time_utc, time_local, temp_internal, temp_external, temp_owm, temp_owm_feels, condition) \
+        VALUES (datetime('now'), datetime('now', 'localtime'), ?1, ?2, ?3, ?4, ?5)",
+        params![data.external, data.internal, data.owm_temp, data.owm_feels, data.owm_condition]
+    )?;
+    Ok(())
 }

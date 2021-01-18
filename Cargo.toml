@@ -1,5 +1,5 @@
 [package]
-name = "raspberrypi-temperature-rust-web"
+name = "raspberrypi-temperature-rust"
 version = "0.1.0"
 authors = ["Cristian Rojas <injcristianrojas@gmail.com>"]
 edition = "2018"
@@ -14,6 +14,11 @@ serde_derive = "1.0"
 rusqlite = "0.24.2"
 dotenv = "0.15.0"
 chrono = "0.4"
+w1_therm_reader = "0.1.0"
+schedule_recv = "0.1.0"
+reqwest = { version = "0.10", features = ["blocking", "json"] }
+tokio = { version = "0.2", features = ["full"] }
+openssl = { version = "0.10.29", features = ["vendored"] }
 
 [dependencies.rocket_contrib]
 version = "0.4.6"

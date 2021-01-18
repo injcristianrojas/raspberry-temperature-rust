@@ -6,18 +6,20 @@ extern crate rocket;
 extern crate serde_derive;
 
 use std::thread;
-use std::time::Duration;
+
+use temp::get_and_process_data;
 
 mod db;
 mod web;
+mod temp;
 
 fn main() {
     let web_handler = thread::spawn( || {
-        let mut i = 0;
+        let tick = schedule_recv::periodic_ms(60000);
+        get_and_process_data();
         loop {
-            // Data grabber goes here then
-            println!("hi number {} from the spawned thread!", { i += 1; i });
-            thread::sleep(Duration::from_millis(100));
+            tick.recv().unwrap();
+            get_and_process_data();
         }
     });
     web::startup();

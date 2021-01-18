@@ -1,0 +1,18 @@
+# Put this in /etc/systemd/system/
+# Then start it using: sudo systemctl start rust_temp.service
+# Then enable it using: sudo systemctl enable rust_temp.service
+
+[Unit]
+Description=Temperature sensors data retrieval (Rust port)
+After=network.target
+
+[Service]
+ExecStart=/home/pi/temp_rust/raspberrypi-temperature-rust
+WorkingDirectory=/home/pi/temp_rust
+StandardOutput=inherit
+StandardError=inherit
+Restart=always
+User=pi
+
+[Install]
+WantedBy=multi-user.target
