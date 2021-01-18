@@ -1,7 +1,7 @@
 use chrono::Local;
 use dotenv::dotenv;
-use std::env;
 use serde_json::Value;
+use std::env;
 use std::error::Error;
 use w1_therm_reader::{convert_to_metric, read_from_file};
 
@@ -9,6 +9,12 @@ use crate::db::{TempData, insert_data};
 
 const INTERNAL_DEVICE: &str = "/sys/bus/w1/devices/28-01191bb88a82/w1_slave";
 const EXTERNAL_DEVICE: &str = "/sys/bus/w1/devices/28-3c01b556c9c2/w1_slave";
+
+struct OwmData {
+    owm_temp: f64,
+    owm_feels_like: f64,
+    current_condition: String,
+}
 
 pub fn get_temperature_data() -> TempData {
     let owm_api_data = match get_owm_api_data() {
@@ -44,12 +50,6 @@ fn get_external_temperature_data() -> f64 {
 
 fn dekelvinize(k: &Value) -> f64 {
     k.to_string().parse::<f64>().unwrap() - 273.15
-}
-
-struct OwmData {
-    owm_temp: f64,
-    owm_feels_like: f64,
-    current_condition: String,
 }
 
 fn get_owm_api_data() -> Result<OwmData, Box<dyn Error>> {

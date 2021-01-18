@@ -1,6 +1,6 @@
 use dotenv::dotenv;
-use std::env;
 use rusqlite::{Connection, Error, NO_PARAMS, Result, params};
+use std::env;
 
 #[derive(Serialize, Debug)]
 pub struct Weather {
@@ -13,7 +13,6 @@ pub struct Weather {
     pub owm_condition: String,
     pub latest_formatted: String,
 }
-
 pub struct TempData {
     pub internal: f64,
     pub external: f64,
