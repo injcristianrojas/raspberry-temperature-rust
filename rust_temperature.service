@@ -1,6 +1,6 @@
 # Put this in /etc/systemd/system/
-# Then start it using: sudo systemctl start rust_temp.service
-# Then enable it using: sudo systemctl enable rust_temp.service
+# Then start it using: sudo systemctl start rust_temperature.service
+# Then enable it using: sudo systemctl enable rust_temperature.service
 
 [Unit]
 Description=Temperature sensors data retrieval (Rust port)
