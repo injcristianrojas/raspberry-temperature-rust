@@ -2,7 +2,8 @@
 
 This personal, COVID-19 crisis-born project, aims to provide an embedded
 platform for internal and external environmental temperature. Starting as a
-Python project, it evolved to Rust based in my learning needs. The platform has
+[Python project](https://github.com/injcristianrojas/raspberrypi_temperature),
+it evolved to Rust based in my learning needs. The platform has
 the following components:
 
 * Two DS18B20 temperature sensors, one for interior measurements, the other for
@@ -37,9 +38,10 @@ Create an sqlite3 database using: `cat database.sql | sqlite3 temps_db.sqlite`
 
 ## API Setup
 
-Open a OpenWeatherMap API account. The [free tier](https://openweathermap.org/price) 
-is more than enough, since the platform makes 1 call per minute. Be sure to
-note down your API key and [city ID](https://openweathermap.org/current#cityid)
+Open a OpenWeatherMap API account. The
+[free tier](https://openweathermap.org/price) is more than enough, since the 
+platform makes 1 call per minute. Be sure to note down your API key and
+[city ID](https://openweathermap.org/current#cityid).
 
 ## Environment setup
 
@@ -60,3 +62,9 @@ file (rust_temperature.service) and move it to `/etc/systemd/system/`.
 Instructions for enabling and starting it are included in that file. Be sure
 that `ExecStart` and `WorkingDirectory` point in the correct file and directory.
 
+# Future work
+
+- [ ] Better web UI
+- [ ] Web graphs (past 24 hours)
+- [ ] Reporting
+- [ ] Some Data Science magic maybe (Machine learning-based predictions, etc.)
