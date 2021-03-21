@@ -81,7 +81,6 @@ impl Create for LCDDisplay {
     fn update_data(&mut self) -> Result<(), Box<dyn std::error::Error>> {
         let latest: WeatherDataForDisplay = self.struct_weather_data_for_display();
 
-
         self.lcd.print_at(0, 4, latest.time_local)?;
         self.lcd.print_at(0, 15, latest.time_utc)?;
         self.lcd.print_at(1, 9, latest.internal)?;
@@ -115,7 +114,7 @@ impl Create for LCDDisplay {
             external: self.fmt_temp(w.external),
             owm_temp: self.fmt_temp(w.owm_temp),
             owm_feels: self.fmt_temp(w.owm_feels),
-            owm_condition: w.owm_condition,
+            owm_condition: format!("{:width$}", w.owm_condition, width=17)
         }
     }
 }
