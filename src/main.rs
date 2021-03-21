@@ -7,7 +7,7 @@ extern crate serde_derive;
 
 use std::thread;
 
-use display::Display;
+use display::Create;
 
 mod db;
 mod web;
@@ -18,8 +18,10 @@ fn main() {
     let handler = thread::spawn( || {
         let tick = schedule_recv::periodic_ms(60000);
         temp::get_and_process_data();
-        let mut display: Display = Display::new();
+
+        let mut display = display::createlcd();
         display.set_first_time_data().unwrap();
+        
         loop {
             tick.recv().unwrap();
             temp::get_and_process_data();
