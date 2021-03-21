@@ -12,7 +12,7 @@ WorkingDirectory=/home/pi/temp_rust
 StandardOutput=inherit
 StandardError=inherit
 Restart=always
-User=root
+User=pi
 
 [Install]
 WantedBy=multi-user.target
