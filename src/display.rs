@@ -2,7 +2,7 @@ use chrono::NaiveDateTime;
 use pwr_hd44780::Hd44780;
 use pwr_hd44780::frontends::Direct;
 
-use crate::db::{get_latest_data, Weather};
+use crate::db::get_latest_data;
 
 pub struct WeatherDataForDisplay {
     time_utc: String,
@@ -15,11 +15,10 @@ pub struct WeatherDataForDisplay {
 }
 
 pub trait Create {
-    fn show_data(&mut self, num: i32) -> Result<(), Box<dyn std::error::Error>>;
     fn set_first_time_data(&mut self) -> Result<(), Box<dyn std::error::Error>>;
     fn fmt_temp(&mut self, temp: f64) -> String;
     fn fmt_date_to_time(&mut self, date: &str) -> String;
-    fn struct_weather_data_for_display (&mut self, w: Weather) -> WeatherDataForDisplay;
+    fn struct_weather_data_for_display (&mut self) -> WeatherDataForDisplay;
 }
 
 pub struct LCDDisplay {
@@ -35,16 +34,9 @@ pub fn createlcd() -> LCDDisplay {
 }
 
 impl Create for LCDDisplay {
-    
-    fn show_data(&mut self, num: i32) -> Result<(), Box<dyn std::error::Error>> {
-        self.lcd.clear()?;
-        self.lcd.print(num.to_string())?;
-
-        Ok(())
-    }
 
     fn set_first_time_data(&mut self) -> Result<(), Box<dyn std::error::Error>> {
-        let latest: WeatherDataForDisplay = self.struct_weather_data_for_display(get_latest_data().unwrap());
+        let latest: WeatherDataForDisplay = self.struct_weather_data_for_display();
 
         self.lcd.create_char(
             1,
@@ -93,7 +85,8 @@ impl Create for LCDDisplay {
         data.format("%H:%M").to_string()
     }
 
-    fn struct_weather_data_for_display(&mut self, w: Weather) -> WeatherDataForDisplay {
+    fn struct_weather_data_for_display(&mut self) -> WeatherDataForDisplay {
+        let w = get_latest_data().unwrap();
         WeatherDataForDisplay {
             time_utc: self.fmt_date_to_time(&w.time_utc),
             time_local: self.fmt_date_to_time(&w.time_local),
@@ -105,56 +98,3 @@ impl Create for LCDDisplay {
         }
     }
 }
-
-/* 
-    pub fn set_first_time_data(&mut self) -> Result<(), Box<dyn std::error::Error>> {
-        let latest: Weather = get_latest_data().unwrap();
-
-        self.lcd.create_char(
-            1,
-            [
-                0b00001000,
-                0b00010100,
-                0b00001000,
-                0b00000000,
-                0b00000000,
-                0b00000000,
-                0b00000000,
-                0b00000000,
-            ],
-        )?;
-
-        self.lcd.clear()?;
-        self.lcd.print(format!(
-            "SCL {}  UTC {}",
-            self.fmt_date_to_time(&latest.time_local),
-            self.fmt_date_to_time(&latest.time_utc)
-        ))?;
-        self.lcd.print(format!(
-            "In/Out:  {}/{} C",
-            self.fmt_temp(&latest.internal),
-            self.fmt_temp(&latest.external)
-        ))?;
-        self.lcd.print(format!(
-            "T/Feel:  {}/{} C",
-            self.fmt_temp(&latest.owm_temp),
-            self.fmt_temp(&latest.owm_feels)
-        ))?;
-        self.lcd.print(format!("W: {}", latest.owm_condition))?;
-
-        self.lcd.print_char_at(1, 18, 1)?;
-        self.lcd.print_char_at(2, 18, 1)?;
-
-        Ok(())
-    }
-
-    fn fmt_temp(&mut self, temp: &f64) -> String {
-        format!("{:.1}", temp)
-    }
-
-    fn fmt_date_to_time(&mut self, date: &str) -> String {
-        let data = NaiveDateTime::parse_from_str(date, "%Y-%m-%d %H:%M:%S").unwrap();
-        data.format("%H:%M").to_string()
-    }
-
-*/
