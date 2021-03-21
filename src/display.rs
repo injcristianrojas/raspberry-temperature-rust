@@ -77,7 +77,11 @@ impl Create for LCDDisplay {
     }
 
     fn fmt_temp(&mut self, temp: f64) -> String {
-        format!("{:.1}", temp)
+        if temp > -100.0 {
+            format!("{:.1}", temp)
+        } else {
+            "----".to_string()
+        }
     }
 
     fn fmt_date_to_time(&mut self, date: &str) -> String {
