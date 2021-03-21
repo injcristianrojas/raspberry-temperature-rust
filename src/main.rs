@@ -25,6 +25,7 @@ fn main() {
         loop {
             tick.recv().unwrap();
             temp::get_and_process_data();
+            display.update_data().unwrap();
         }
     });
     web::startup();

@@ -16,6 +16,7 @@ pub struct WeatherDataForDisplay {
 
 pub trait Create {
     fn set_first_time_data(&mut self) -> Result<(), Box<dyn std::error::Error>>;
+    fn update_data(&mut self) -> Result<(), Box<dyn std::error::Error>>;
     fn fmt_temp(&mut self, temp: f64) -> String;
     fn fmt_date_to_time(&mut self, date: &str) -> String;
     fn struct_weather_data_for_display (&mut self) -> WeatherDataForDisplay;
@@ -52,6 +53,7 @@ impl Create for LCDDisplay {
             ],
         )?;
 
+        self.lcd.set_backlight(false)?;
         self.lcd.clear()?;
         self.lcd.print_at(0, 0, format!(
             "SCL {}  UTC {}",
@@ -72,6 +74,21 @@ impl Create for LCDDisplay {
 
         self.lcd.print_char_at(1, 18, 1)?;
         self.lcd.print_char_at(2, 18, 1)?;
+
+        Ok(())
+    }
+
+    fn update_data(&mut self) -> Result<(), Box<dyn std::error::Error>> {
+        let latest: WeatherDataForDisplay = self.struct_weather_data_for_display();
+
+
+        self.lcd.print_at(0, 4, latest.time_local)?;
+        self.lcd.print_at(0, 15, latest.time_utc)?;
+        self.lcd.print_at(1, 9, latest.internal)?;
+        self.lcd.print_at(1, 14, latest.external)?;
+        self.lcd.print_at(2, 9, latest.owm_temp)?;
+        self.lcd.print_at(2, 14, latest.owm_feels)?;
+        self.lcd.print_at(3, 0,format!("W: {}", latest.owm_condition))?;
 
         Ok(())
     }
