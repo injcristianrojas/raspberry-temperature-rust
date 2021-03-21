@@ -1,3 +1,5 @@
+-- Create database using: cat database.sql | sqlite3 temps_db.sqlite
+
 CREATE TABLE temperatures (
     time_utc DATETIME NOT NULL, 
     time_local DATETIME NOT NULL, 
