@@ -64,7 +64,7 @@ that `ExecStart` and `WorkingDirectory` point in the correct file and directory.
 
 # Future work
 
-- [ ] Better web UI (more responsive)
+- [x] Better web UI (more responsive)
 - [ ] Web graphs (past 24 hours)
 - [ ] Reporting
 - [ ] Some Data Science magic maybe (Machine learning-based predictions, etc.)

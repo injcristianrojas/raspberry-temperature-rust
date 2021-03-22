@@ -4,36 +4,49 @@
 
 <head>
   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>Current temperatures</title>
-  <link rel="stylesheet" href="static/css/styles.css">
-  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script type="text/javascript" src="static/js/process.js"></script>
+  <link rel="stylesheet" href="static/css/bootstrap.min.css">
+  <link id="dark-theme-style" rel="stylesheet" />
+
 </head>
 
 <body>
-  
-  <table class="center" aria-describedby="descr">
-    <tbody>
-      <tr>
-        <th colspan="2" id="tmp">
-          <div class="title" id="descr">Current Temperatures<br />&nbsp;</div>
-        </th>
-      </tr>
-      <tr>
-        <td><div class="subtitle">Inside</div></td>
-        <td><div class="subtitle">Outside</div></td>
-      </tr>
-      <tr>
-        <td><div class="temp"><span id="temp_inside">&nbsp;</span>°C</div></td>
-        <td><div class="temp"><span id="temp_outside">&nbsp;</span>°C</div></td>
-      </tr>
-    </tbody>
-  </table>
 
-  <p class="owm">OWM Data: <span id="owm_info"></span></p>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <h3 class="display-6 text-center">Current Temperatures</h3>
+      </div>
+      <div class="col-md-5">
+        <h1 class="display-5">Inside</h1>
+      </div>
+      <div class="col-md-7">
+        <h1 class="display-1 font-weight-bold text-right"><span id="temp_inside">&nbsp;</span>°C</h1>
+      </div>
+      <div class="col-md-5">
+        <h1 class="display-5">Outside</h1>
+      </div>
+      <div class="col-md-7">
+        <h1 class="display-1 font-weight-bold text-right"><span id="temp_outside">&nbsp;</span>°C</h1>
+      </div>
+      <div class="col-md-12">
+        <h4 class="text-center">OWM Data: <span id="owm_info"></span></h4>
+      </div>
+      <div class="col-md-12">
+        <h4 class="text-center">Latest measurement: <span id="latest"></span></h4>
+      </div>
+    </div>
+  </div>
 
-  <p class="last">Latest measurement: <span id="latest"></span></p>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+    integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"
+    integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF"
+    crossorigin="anonymous"></script>
 
+  <script src="static/js/process.js"></script>
 </body>
 
 </html>
