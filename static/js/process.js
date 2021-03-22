@@ -1,8 +1,12 @@
 $(document).ready(function () {
 
+    var myChart;
+
     loadAndSetData();
     setInterval(loadAndSetData, 60000);
-    //setInterval(reloadVisualization, 300000);
+    createChart();
+    loadDataToChart();
+    setInterval(loadDataToChart, 60000);
 
     function loadAndSetData() {
         $.getJSON("/api/v1/latest/", function (data) {
@@ -26,9 +30,87 @@ $(document).ready(function () {
         }
     }
 
-    function reloadVisualization() {
-        let d = new Date()
-        $("#mgviz").attr("src", `/static/latest.png?${d.getTime()}`)
+    function createChart() {
+        var ctx = document.getElementById('myChart').getContext('2d');
+        myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: [],
+                datasets: [
+                    {
+                        label: 'Internal',
+                        data: [],
+                        backgroundColor: 'cornflowerblue',
+                        borderColor: 'cornflowerblue',
+                        fill: false,
+                    }, 
+                    {
+                        label: 'External',
+                        data: [],
+                        backgroundColor: 'orange',
+                        borderColor: 'orange',
+                        fill: false,
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                title: {
+                    display: true,
+                    text: 'Chart.js Line Chart',
+                    fontColor: 'white',
+                },
+                legend: {
+                    labels: {
+                        fontColor: 'white',
+                    }
+                },
+                tooltips: {
+                    mode: 'index',
+                    intersect: false,
+                },
+                hover: {
+                    mode: 'nearest',
+                    intersect: true
+                },
+                scales: {
+                    xAxes: [{
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Month',
+                            fontColor: 'white',
+                        },
+                        ticks: {
+                            fontColor: 'white',
+                        }
+                    }],
+                    yAxes: [{
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Value',
+                            fontColor: 'white',
+                        },
+                        ticks: {
+                            suggestedMin: -5,
+                            suggestedMax: 40,
+                            fontColor: 'white',
+                        }
+                    }]
+                }
+            }
+        });
+    }
+
+    function loadDataToChart() {
+        
+        $.getJSON('/static/last24.json', function(response) {
+            myChart.data.labels = response.labels;
+            myChart.data.datasets[0].data = response.data.internal;
+            myChart.data.datasets[1].data = response.data.external;
+            myChart.update();
+        });
     }
 
 });
