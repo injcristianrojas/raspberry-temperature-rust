@@ -7,8 +7,8 @@ use w1_therm_reader::{convert_to_metric, read_from_file};
 
 use crate::db::{TempData, insert_data};
 
-const INTERNAL_DEVICE: &str = "/sys/bus/w1/devices/28-01191bb88a82/w1_slave";
-const EXTERNAL_DEVICE: &str = "/sys/bus/w1/devices/28-3c01b556c9c2/w1_slave";
+const EXTERNAL_DEVICE: &str = "/sys/bus/w1/devices/28-01191bb88a82/w1_slave";
+const INTERNAL_DEVICE: &str = "/sys/bus/w1/devices/28-3c01b556c9c2/w1_slave";
 
 struct OwmData {
     owm_temp: f64,
@@ -74,9 +74,9 @@ pub fn get_and_process_data() {
     let tempdata: TempData = get_temperature_data();
     let now = Local::now().format("%Y-%m-%d %H:%M:%S");
     let log_data = format!(
-        "{}|{}|{}|{}|{}",
-        tempdata.external,
+        "In {}|Out {}|OWM-Temp {}|OWM-Feels {}|Cond: {}",
         tempdata.internal,
+        tempdata.external,
         tempdata.owm_temp,
         tempdata.owm_feels,
         tempdata.owm_condition
