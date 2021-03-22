@@ -2,3 +2,4 @@
 Makefile
 /logs
 NOTES.md
+static/last24.json
