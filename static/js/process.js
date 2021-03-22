@@ -57,8 +57,9 @@ $(document).ready(function () {
                 responsive: true,
                 title: {
                     display: true,
-                    text: 'Chart.js Line Chart',
+                    text: ['Chart.js Line Chart', 'Updated now'],
                     fontColor: 'white',
+                    fontSize: 16,
                 },
                 legend: {
                     labels: {
