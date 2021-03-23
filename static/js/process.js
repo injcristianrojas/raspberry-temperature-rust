@@ -62,6 +62,7 @@ $(document).ready(function () {
                     fontSize: 16,
                 },
                 legend: {
+                    display: false,
                     labels: {
                         fontColor: 'white',
                     }
@@ -74,12 +75,17 @@ $(document).ready(function () {
                     mode: 'nearest',
                     intersect: true
                 },
+                elements: {
+                    point: {
+                        radius: 1
+                    }
+                },
                 scales: {
                     xAxes: [{
                         display: true,
                         scaleLabel: {
                             display: true,
-                            labelString: 'Month',
+                            labelString: 'Time',
                             fontColor: 'white',
                         },
                         ticks: {
@@ -90,7 +96,7 @@ $(document).ready(function () {
                         display: true,
                         scaleLabel: {
                             display: true,
-                            labelString: 'Value',
+                            labelString: 'Temperature',
                             fontColor: 'white',
                         },
                         ticks: {
@@ -107,9 +113,10 @@ $(document).ready(function () {
     function loadDataToChart() {
         
         $.getJSON('/static/last24.json', function(response) {
+            myChart.options.title.text = ['Graph for the last 24 hours', 'Updated ' + response.latest];
             myChart.data.labels = response.labels;
-            myChart.data.datasets[0].data = response.data.internal;
-            myChart.data.datasets[1].data = response.data.external;
+            myChart.data.datasets[0].data = response.internal;
+            myChart.data.datasets[1].data = response.external;
             myChart.update();
         });
     }
