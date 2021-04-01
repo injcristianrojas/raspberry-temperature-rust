@@ -1,3 +1,5 @@
+# Build first: docker build -t cross-arm:0.1 .
+
 FROM rustembedded/cross:armv7-unknown-linux-gnueabihf-0.2.1
 
 RUN dpkg --add-architecture armhf
