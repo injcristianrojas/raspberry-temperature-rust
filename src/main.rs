@@ -4,6 +4,8 @@
 extern crate rocket;
 #[macro_use]
 extern crate serde_derive;
+#[macro_use]
+extern crate rocket_include_static_resources;
 
 use std::thread;
 

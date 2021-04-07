@@ -12,6 +12,7 @@ dotenv = "0.15.0"
 openssl = { version = "0.10.33", features = ["vendored"] }
 reqwest = { version = "0.11.2", features = ["blocking", "json"] }
 rocket = "0.4.7"
+rocket-include-static-resources = "0.9.6"
 rusqlite = "0.25.0"
 schedule_recv = "0.1.0"
 serde = "1.0.125"

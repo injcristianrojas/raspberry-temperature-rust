@@ -6,6 +6,7 @@ use rocket::{
     http::{ContentType, Status},
     response, Request, Response,
 };
+use rocket_include_static_resources::StaticResponse;
 use rocket_contrib::{json, serve::StaticFiles};
 use rocket_contrib::{json::JsonValue, templates::Template};
 
@@ -15,6 +16,11 @@ use crate::db::{get_latest_data, Weather};
 fn index() -> Template {
     let context: HashMap<&str, &str> = HashMap::new();
     Template::render("index", &context)
+}
+
+#[get("/favicon.ico")]
+fn favicon() -> StaticResponse {
+    static_response!("favicon")
 }
 
 #[derive(Debug)]
@@ -37,7 +43,7 @@ fn process_date(mut weather_data: Weather) -> Weather {
         NaiveDateTime::parse_from_str(&weather_data.latest_formatted, "%Y-%m-%d %H:%M:%S");
     weather_data.latest_formatted = match timedata {
         Ok(e) => e.format("%A, %B %d, %R").to_string(),
-        Err(_) => "caca".to_string(),
+        Err(_) => "process_date error".to_string(),
     };
     weather_data
 }
@@ -59,7 +65,10 @@ fn latest() -> ApiResponse {
 
 pub fn startup() {
     rocket::ignite()
-        .mount("/", routes![index, latest])
+        .attach(StaticResponse::fairing(|resources| {
+            static_resources_initialize!(resources, "favicon", "images/favicon.ico",);
+        }))
+        .mount("/", routes![index, latest, favicon])
         .mount("/static", StaticFiles::from("static"))
         .attach(Template::fairing())
         .launch();
