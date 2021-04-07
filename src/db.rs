@@ -1,6 +1,6 @@
 use chrono::Local;
 use dotenv::dotenv;
-use rusqlite::{Connection, Error, NO_PARAMS, Result, params};
+use rusqlite::{Connection, Error, Result, params};
 use std::env;
 use std::fs;
 
@@ -32,7 +32,7 @@ pub fn get_latest_data() -> Result<Weather, Error> {
         ORDER BY time_utc DESC \
         LIMIT 1"
     )?;
-    let mut temps = stmt.query_map(NO_PARAMS, |row| {
+    let mut temps = stmt.query_map([], |row| {
         Ok(
             Weather {
                 time_utc: row.get(0)?,
@@ -83,7 +83,7 @@ pub fn get_last_24() -> Result<()> {
         "SELECT strftime('%H:%M', time_local), round(temp_internal, 1), round(temp_external, 1) FROM temperatures \
         WHERE time_local > datetime('now', '-1 day') AND strftime('%M', time_local) % 5 = 0 ORDER BY time_local"
     )?;
-    let weather_rows = stmt.query_map(NO_PARAMS, |row| {
+    let weather_rows = stmt.query_map([], |row| {
         Ok(WeatherJSON {
             time_local: row.get(0)?,
             internal: row.get(1)?,
