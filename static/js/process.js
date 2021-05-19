@@ -43,7 +43,7 @@ $(document).ready(function () {
                         backgroundColor: 'cornflowerblue',
                         borderColor: 'cornflowerblue',
                         fill: false,
-                    }, 
+                    },
                     {
                         label: 'External',
                         data: [],
@@ -81,38 +81,30 @@ $(document).ready(function () {
                     }
                 },
                 scales: {
-                    xAxes: [{
+                    x: {
                         display: true,
-                        scaleLabel: {
+                        title: {
                             display: true,
-                            labelString: 'Time',
-                            fontColor: 'white',
-                        },
-                        ticks: {
-                            fontColor: 'white',
+                            text: 'Time'
                         }
-                    }],
-                    yAxes: [{
+                    },
+                    y: {
                         display: true,
-                        scaleLabel: {
+                        title: {
                             display: true,
-                            labelString: 'Temperature',
-                            fontColor: 'white',
+                            text: 'Temperature'
                         },
-                        ticks: {
-                            suggestedMin: -5,
-                            suggestedMax: 40,
-                            fontColor: 'white',
-                        }
-                    }]
+                        suggestedMin: -5,
+                        suggestedMax: 40
+                    }
                 }
             }
         });
     }
 
     function loadDataToChart() {
-        
-        $.getJSON('/static/last24.json', function(response) {
+
+        $.getJSON('/static/last24.json', function (response) {
             myChart.options.title.text = ['Graph for the last 24 hours', 'Updated ' + response.latest];
             myChart.data.labels = response.labels;
             myChart.data.datasets[0].data = response.internal;
