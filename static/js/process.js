@@ -94,8 +94,6 @@ $(document).ready(function () {
                             display: true,
                             text: 'Temperature'
                         },
-                        suggestedMin: -5,
-                        suggestedMax: 40
                     }
                 }
             }
