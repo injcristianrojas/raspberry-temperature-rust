@@ -60,11 +60,11 @@ Now, you're ready to compile and run.
 If you want it to run as a service, register it using the service definition
 file (rust_temperature.service) and move it to `/etc/systemd/system/`.
 Instructions for enabling and starting it are included in that file. Be sure
-that `ExecStart` and `WorkingDirectory` point in the correct file and directory.
+that `ExecStart` and `WorkingDirectory` point to the correct file and directory.
 
 # Future work
 
 - [x] Better web UI (more responsive)
-- [ ] Web graphs (past 24 hours)
+- [x] Web graphs (past 24 hours)
 - [ ] Reporting
 - [ ] Some Data Science magic maybe (Machine learning-based predictions, etc.)
