@@ -94,7 +94,11 @@ impl Create for LCDDisplay {
 
     fn fmt_temp(&mut self, temp: f64) -> String {
         if temp > -100.0 {
-            format!("{:.1}", temp)
+            if temp.abs() < 10.0 {
+                format!(" {:.1}", temp)
+            } else {
+                format!("{:.1}", temp)
+            }
         } else {
             "----".to_string()
         }
