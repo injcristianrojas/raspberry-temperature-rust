@@ -12,7 +12,12 @@ $(document).ready(function () {
     $.getJSON("/api/v1/latest/", function (data) {
       setValues(data["internal"], data["external"], data["latest_formatted"]);
       setOWMData(data["owm_temp"], data["owm_feels"], data["owm_condition"]);
-    });
+    }).fail(
+      function(jqXHR, textStatus, errorThrown) {
+        console.log('getJSON request failed! ' + textStatus);
+        $('#alert_box').css('visibility', 'visible');
+      }
+    );
   }
 
   function setValues(inside, outside, latest) {
