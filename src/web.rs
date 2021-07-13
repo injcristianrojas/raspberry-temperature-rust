@@ -10,7 +10,7 @@ use rocket_include_static_resources::StaticResponse;
 use rocket_contrib::{json, serve::StaticFiles};
 use rocket_contrib::{json::JsonValue, templates::Template};
 
-use crate::db::{get_current_data, Weather};
+use crate::db::{get_current_data, get_last24_data, Weather};
 
 #[get("/")]
 fn index() -> Template {
@@ -63,12 +63,27 @@ fn latest() -> ApiResponse {
     }
 }
 
+#[get("/api/v1/last24")]
+fn last24() -> ApiResponse {
+    let last24 = get_last24_data();
+    match last24 {
+        Ok(last24) => ApiResponse {
+            json: json!(last24),
+            status: Status::Ok,
+        },
+        Err(_) => ApiResponse {
+            json: json!({"error_code": 500}),
+            status: Status::InternalServerError,
+        },
+    }
+}
+
 pub fn startup() {
     rocket::ignite()
         .attach(StaticResponse::fairing(|resources| {
             static_resources_initialize!(resources, "favicon", "images/favicon.ico",);
         }))
-        .mount("/", routes![index, latest, favicon])
+        .mount("/", routes![index, latest, last24, favicon])
         .mount("/static", StaticFiles::from("static"))
         .attach(Template::fairing())
         .launch();

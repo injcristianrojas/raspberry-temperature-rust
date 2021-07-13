@@ -69,7 +69,7 @@ struct WeatherJSON {
 }
 
 #[derive(Serialize, Debug)]
-struct JsonData {
+pub struct JsonData {
     latest: String,
     labels: Vec<String>,
     internal: Vec<f64>,
@@ -84,7 +84,7 @@ pub fn write_last24() -> Result<()> {
     Ok(())
 }
 
-fn get_last24_data() -> Result<JsonData> {
+pub fn get_last24_data() -> Result<JsonData, Error> {
     dotenv().ok();
     let conn = Connection::open(env::var("DATABASE_FILE").expect("DATABASE_FILE must be set"))?;
     let mut stmt = conn.prepare(
