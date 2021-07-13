@@ -107,7 +107,7 @@ $(document).ready(function () {
 
   function loadDataToChart() {
 
-    $.getJSON('/static/last24.json', function (response) {
+    $.getJSON('/api/v1/last24', function (response) {
       myChart.options.title.text = ['Graph for the last 24 hours', 'Updated ' + response.latest];
       myChart.data.labels = response.labels;
       myChart.data.datasets[0].data = response.internal;
