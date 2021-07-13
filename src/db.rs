@@ -76,7 +76,15 @@ struct JsonData {
     external: Vec<f64>
 }
 
-pub fn get_last_24() -> Result<()> {
+pub fn write_last24() -> Result<()> {
+    let jsondata = get_last24_data().unwrap();
+    let serialized = serde_json::to_string(&jsondata).unwrap();
+    fs::write("static/last24.json", serialized).expect("Unable to write file");
+    println!("Graph data JSON written {}", Local::now().format("%Y-%m-%d %H:%M:%S").to_string());
+    Ok(())
+}
+
+fn get_last24_data() -> Result<JsonData> {
     dotenv().ok();
     let conn = Connection::open(env::var("DATABASE_FILE").expect("DATABASE_FILE must be set"))?;
     let mut stmt = conn.prepare(
@@ -105,9 +113,5 @@ pub fn get_last_24() -> Result<()> {
         jsondata.external.push(weather.external);
     }
 
-    let serialized = serde_json::to_string(&jsondata).unwrap();
-    fs::write("static/last24.json", serialized).expect("Unable to write file");
-    println!("Graph data JSON written {}", Local::now().format("%Y-%m-%d %H:%M:%S").to_string());
-
-    Ok(())
+    return Ok(jsondata);
 }

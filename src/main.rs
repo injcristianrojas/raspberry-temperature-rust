@@ -24,7 +24,7 @@ fn main() {
         let mut display = display::createlcd();
         display.set_first_time_data().unwrap();
 
-        db::get_last_24().unwrap();
+        db::write_last24().unwrap();
         
         loop {
             tick.recv().unwrap();
@@ -35,11 +35,11 @@ fn main() {
     let handler2 = thread::spawn( || {
         let tick = schedule_recv::periodic_ms(300000);
 
-        db::get_last_24().unwrap();
+        db::write_last24().unwrap();
         
         loop {
             tick.recv().unwrap();
-            db::get_last_24().unwrap();
+            db::write_last24().unwrap();
         }
     });
     web::startup();
