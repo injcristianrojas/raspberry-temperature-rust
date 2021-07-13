@@ -23,7 +23,7 @@ pub struct TempData {
     pub owm_condition: String,
 }
 
-pub fn get_latest_data() -> Result<Weather, Error> {
+pub fn get_current_data() -> Result<Weather, Error> {
     dotenv().ok();
     let conn = Connection::open(env::var("DATABASE_FILE").expect("DATABASE_FILE must be set"))?;
     let mut stmt = conn.prepare(

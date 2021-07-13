@@ -2,7 +2,7 @@ use chrono::NaiveDateTime;
 use pwr_hd44780::Hd44780;
 use pwr_hd44780::frontends::Direct;
 
-use crate::db::get_latest_data;
+use crate::db::get_current_data;
 
 pub struct WeatherDataForDisplay {
     time_utc: String,
@@ -110,7 +110,7 @@ impl Create for LCDDisplay {
     }
 
     fn struct_weather_data_for_display(&mut self) -> WeatherDataForDisplay {
-        let w = get_latest_data().unwrap();
+        let w = get_current_data().unwrap();
         WeatherDataForDisplay {
             time_utc: self.fmt_date_to_time(&w.time_utc),
             time_local: self.fmt_date_to_time(&w.time_local),

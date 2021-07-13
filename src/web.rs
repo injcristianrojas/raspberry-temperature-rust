@@ -10,7 +10,7 @@ use rocket_include_static_resources::StaticResponse;
 use rocket_contrib::{json, serve::StaticFiles};
 use rocket_contrib::{json::JsonValue, templates::Template};
 
-use crate::db::{get_latest_data, Weather};
+use crate::db::{get_current_data, Weather};
 
 #[get("/")]
 fn index() -> Template {
@@ -50,7 +50,7 @@ fn process_date(mut weather_data: Weather) -> Weather {
 
 #[get("/api/v1/latest")]
 fn latest() -> ApiResponse {
-    let latest = get_latest_data();
+    let latest = get_current_data();
     match latest {
         Ok(latest) => ApiResponse {
             json: json!(process_date(latest)),
