@@ -89,7 +89,7 @@ pub fn get_last24_data() -> Result<JsonData, Error> {
     let conn = Connection::open(env::var("DATABASE_FILE").expect("DATABASE_FILE must be set"))?;
     let mut stmt = conn.prepare(
         "SELECT strftime('%H:%M', time_local), round(temp_internal, 1), round(temp_external, 1) FROM temperatures \
-        WHERE time_local > datetime('now', '-24 hours') AND strftime('%M', time_local) % 5 = 0 ORDER BY time_local"
+        WHERE time_utc > datetime('now', '-24 hours') AND strftime('%M', time_local) % 5 = 0 ORDER BY time_local"
     )?;
     let weather_rows = stmt.query_map([], |row| {
         Ok(WeatherJSON {
