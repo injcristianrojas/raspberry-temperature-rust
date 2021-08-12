@@ -12,6 +12,7 @@ $(document).ready(function () {
     $.getJSON("/api/v1/latest/", function (data) {
       setValues(data["internal"], data["external"], data["latest_formatted"]);
       setOWMData(data["owm_temp"], data["owm_feels"], data["owm_condition"]);
+      $('#alert_box').css('visibility', 'hidden');
     }).fail(
       function(jqXHR, textStatus, errorThrown) {
         console.log('getJSON request failed! ' + textStatus);
