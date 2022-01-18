@@ -14,7 +14,7 @@ $(document).ready(function () {
       setOWMData(data["owm_temp"], data["owm_feels"], data["owm_condition"]);
       $('#alert_box').css('visibility', 'hidden');
     }).fail(
-      function(jqXHR, textStatus, errorThrown) {
+      function (jqXHR, textStatus, errorThrown) {
         console.log('getJSON request failed! ' + textStatus);
         $('#alert_box').css('visibility', 'visible');
       }
@@ -44,14 +44,14 @@ $(document).ready(function () {
         labels: [],
         datasets: [
           {
-            label: 'Internal',
+            label: 'Internal (10 min MAVG)',
             data: [],
             backgroundColor: 'cornflowerblue',
             borderColor: 'cornflowerblue',
             fill: false,
           },
           {
-            label: 'External',
+            label: 'External (10 min MAVG)',
             data: [],
             backgroundColor: 'orange',
             borderColor: 'orange',
@@ -111,10 +111,53 @@ $(document).ready(function () {
     $.getJSON('/api/v1/last24', function (response) {
       myChart.options.title.text = ['Graph for the last 24 hours', 'Updated ' + response.latest];
       myChart.data.labels = response.labels;
-      myChart.data.datasets[0].data = response.internal;
-      myChart.data.datasets[1].data = response.external;
+      myChart.data.datasets[0].data = movingAvg(response.internal, 10);
+      myChart.data.datasets[1].data = movingAvg(response.external, 10);
       myChart.update();
     });
+  }
+
+  /**
+    * returns an array with moving average of the input array
+    * @param array - the input array
+    * @param count - the number of elements to include in the moving average calculation
+    * @param qualifier - an optional function that will be called on each 
+    *  value to determine whether it should be used
+    */
+  function movingAvg(array, count, qualifier) {
+
+    // calculate average for subarray
+    var avg = function (array, qualifier) {
+
+      var sum = 0, count = 0, val;
+      for (var i in array) {
+        val = array[i];
+        if (!qualifier || qualifier(val)) {
+          sum += val;
+          count++;
+        }
+      }
+
+      return sum / count;
+    };
+
+    var result = [], val;
+
+    // pad beginning of result with null values
+    for (var i = 0; i < count - 1; i++)
+      result.push(null);
+
+    // calculate average for each subarray and add to result
+    for (var i = 0, len = array.length - count; i <= len; i++) {
+
+      val = avg(array.slice(i, i + count), qualifier);
+      if (isNaN(val))
+        result.push(null);
+      else
+        result.push(val);
+    }
+
+    return result;
   }
 
 });
