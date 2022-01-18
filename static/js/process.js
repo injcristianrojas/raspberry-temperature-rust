@@ -117,6 +117,7 @@ $(document).ready(function () {
     });
   }
 
+  //By isapir (https://stackoverflow.com/questions/19981713/html5-js-chart-with-moving-average)
   /**
     * returns an array with moving average of the input array
     * @param array - the input array
