@@ -44,14 +44,14 @@ $(document).ready(function () {
         labels: [],
         datasets: [
           {
-            label: 'Internal (10 min MAVG)',
+            label: 'Internal (30 min MAVG)',
             data: [],
             backgroundColor: 'cornflowerblue',
             borderColor: 'cornflowerblue',
             fill: false,
           },
           {
-            label: 'External (10 min MAVG)',
+            label: 'External (30 min MAVG)',
             data: [],
             backgroundColor: 'orange',
             borderColor: 'orange',
@@ -107,12 +107,11 @@ $(document).ready(function () {
   }
 
   function loadDataToChart() {
-
     $.getJSON('/api/v1/last24', function (response) {
       myChart.options.title.text = ['Graph for the last 24 hours', 'Updated ' + response.latest];
       myChart.data.labels = response.labels;
-      myChart.data.datasets[0].data = movingAvg(response.internal, 10);
-      myChart.data.datasets[1].data = movingAvg(response.external, 10);
+      myChart.data.datasets[0].data = movingAvg(response.internal, 30);
+      myChart.data.datasets[1].data = movingAvg(response.external, 30);
       myChart.update();
     });
   }
