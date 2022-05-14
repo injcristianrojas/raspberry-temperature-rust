@@ -9,7 +9,7 @@ edition = "2018"
 [dependencies]
 chrono = "0.4.19"
 dotenv = "0.15.0"
-openssl = { version = "0.10.36", features = ["vendored"] }
+openssl = { version = "0.10.40", features = ["vendored"] }
 pwr-hd44780 = "0.1.3"
 reqwest = { version = "0.11.8", features = ["blocking", "json"] }
 rocket = "0.4.10"
