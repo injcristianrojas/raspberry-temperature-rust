@@ -4,3 +4,4 @@ Makefile
 NOTES.md
 static/last24.json
 .dccache
+/.vscode
