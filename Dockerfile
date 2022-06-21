@@ -1,4 +1,4 @@
-# Build first: docker build -t cross-arm:0.1 .
+# Build first: podman build -t cross-arm:0.1 .
 
 FROM ghcr.io/cross-rs/armv7-unknown-linux-gnueabihf:edge
 
