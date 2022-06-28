@@ -1,5 +1,2 @@
-[build]
-CROSS_CONTAINER_ENGINE = "podman"
-
 [target.armv7-unknown-linux-gnueabihf]
 image = "cross-arm:0.1"
